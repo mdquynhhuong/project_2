@@ -1,12 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <title>Project 2</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+
+<header>
+    <div class="container">
+        <h1 id="page-title">Movie's Night</h1>
+        <p>Let's Watch Movie Together</p>
+    </div>
+    <div class="container">
+    <h2>What Do You Feel Like Today ? </h2>
+    <form action="">
+        <label for="genres"></label>
+        <select name="genre" id="genres">
+        </select>
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <button id="randombutton">Random Button</button>
+    </div>
+</header>
+
+<main>
+    <ul class="wrapper" id="movies"></ul>
+</main>
+
+<script src="app.js"></script>
 </body>
 </html>
