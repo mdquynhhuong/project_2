@@ -12,19 +12,19 @@
 
 
 // First creating our namspace for the application
-const yikeMovieApp = {}
+const movieApp= {}
 // holding our content in memory
-yikeMovieApp.baseUrl = "https://api.themoviedb.org/3"
-yikeMovieApp.apiKey = "695ac71fce5922ab995f1f6b063ba94f"
+movieApp.baseUrl = "https://api.themoviedb.org/3"
+movieApp.apiKey = "695ac71fce5922ab995f1f6b063ba94f"
 
 // hold all of our generes in memory
-yikeMovieApp.genres = [];
+movieApp.genres = [];
 
 //fetch function
-yikeMovieApp.fetchMovieGenre = () => {
-    const url = new URL(`${yikeMovieApp.baseUrl}/genre/movie/list`);
+movieApp.fetchMovieGenre = () => {
+    const url = new URL(`${movieApp.baseUrl}/genre/movie/list`);
     url.search = new URLSearchParams({
-        api_key: yikeMovieApp.apiKey
+        api_key: movieApp.apiKey
     })
     fetch(url)
         .then((res) => {
@@ -32,14 +32,14 @@ yikeMovieApp.fetchMovieGenre = () => {
             return res.json();
         })
         .then((data) => {
-            yikeMovieApp.genres = data.genres;
-            yikeMovieApp.displayGenres(yikeMovieApp.genres);
+            movieApp.genres = data.genres;
+            movieApp.displayGenres(movieApp.genres);
         })
 }
 
-// Displaying the new genres to the dropdown menu
+// Displaying the new genres to the dropdown menu and append it to HTML form
 
-yikeMovieApp.displayGenres = (listOfGenres) => {
+movieApp.displayGenres = (listOfGenres) => {
     // getting the select element from the screen
     const selectEl = document.getElementById("genres");
 
@@ -58,22 +58,21 @@ yikeMovieApp.displayGenres = (listOfGenres) => {
 // add an event listener to the form
 // so that we can get the users information
 
-yikeMovieApp.getUserInformation = () => {
+movieApp.getUserInformation = () => {
     const formEl = document.querySelector("form")
     formEl.addEventListener("submit", (event) => {
         event.preventDefault();
         const userSelection = event.target[0].value;
-        console.log(event.target[0].value);
-        yikeMovieApp.susan(userSelection)
+        movieApp.fetchMovie(userSelection)
     })
 }
 
 // create function to grab all movies within a genre
-// susan  = fetch movies by genre plz
-yikeMovieApp.susan = (genre) => {
-    const url = new URL(`${yikeMovieApp.baseUrl}/discover/movie`)
+
+movieApp.fetchMovie = (genre) => {
+    const url = new URL(`${movieApp.baseUrl}/discover/movie`)
     url.search = new URLSearchParams({
-        api_key: yikeMovieApp.apiKey,
+        api_key: movieApp.apiKey,
         with_genres: genre
     })
     fetch(url)
@@ -81,12 +80,12 @@ yikeMovieApp.susan = (genre) => {
         return res.json();
     })
     .then((data) => {
-        yikeMovieApp.userSelectedMovies = data.results;
-        yikeMovieApp.jennifer(yikeMovieApp.userSelectedMovies);
+        movieApp.userSelectedMovies = data.results;
+        movieApp.displayMovie(movieApp.userSelectedMovies);
     })
 }
 // render to the content to the page
-yikeMovieApp.jennifer = (movies) => {
+movieApp.displayMovie = (movies) => {
     const moviesList = document.getElementById("movies") 
     moviesList.innerHTML = ""
     movies.forEach((movie) => {
@@ -99,13 +98,16 @@ yikeMovieApp.jennifer = (movies) => {
         newListPhoto.setAttribute("src", movieImage)
         newListPhoto.setAttribute("alt", `This is a poster for the movie: ${movie.title}`)
         // Create new paragraph elements and add in the content
+        // Create Movie Title
         const newListTitle = document.createElement("p")
         newListTitle.textContent = movie.title
+        // Create Movie Overview
         const newListOverview = document.createElement("p")
         newListOverview.textContent = movie.overview
+        // Create Metric 
         const newListMetric = document.createElement("p")
         newListMetric.textContent = `Average rating of: ${movie.vote_average}; from ${movie.vote_count} users`
-        //Add new content to the new list item 
+        //Append these movies into newListItem
         newListItem.appendChild(newListPhoto)
         newListItem.appendChild(newListTitle)
         newListItem.appendChild(newListOverview)
@@ -116,15 +118,16 @@ yikeMovieApp.jennifer = (movies) => {
 }
 
 // random movie button
-yikeMovieApp.safi = () => {
+movieApp.randomMovie = () => {
 
 }
-// init paul
-yikeMovieApp.paul = () => {
-    yikeMovieApp.fetchMovieGenre();
-    yikeMovieApp.getUserInformation();
+
+// init 
+movieApp.general = () => {
+    movieApp.fetchMovieGenre();
+    movieApp.getUserInformation();
 };
 
 
 // Init function
-yikeMovieApp.paul();
+movieApp.general();
